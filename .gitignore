@@ -1,0 +1,3 @@
+# Project exclude paths
+/my-container/target/
+/transfer-server-web/target/

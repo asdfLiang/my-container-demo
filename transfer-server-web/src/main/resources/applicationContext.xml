@@ -1,0 +1,3 @@
+<beans>
+    <bean id="LagouBean" class="com.lagou.edu.pojo.LagouBean"></bean>
+</beans>
