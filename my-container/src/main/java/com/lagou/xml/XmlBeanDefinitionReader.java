@@ -10,6 +10,7 @@ import org.dom4j.io.SAXReader;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.IntFunction;
 
 /**
  * 负责配置文件解析，将beanDefinition注册到beanFactory中
@@ -64,22 +65,28 @@ public class XmlBeanDefinitionReader {
      * @param beansElement
      */
     private void parseBeanDefinitions(Element beansElement) {
-        List<Element> beanElements = beansElement.selectNodes("//bean");
+        List<Element> beanElements = beansElement.selectNodes("bean");
         beanElements.forEach(beanElement -> {
-            String beanName = beanElement.attributeValue("id");
-            String beanClassName = beanElement.attributeValue("class");
-            Class<?> beanClass = null;
             try {
-                beanClass = Class.forName(beanClassName);
+                String beanName = beanElement.attributeValue("id");
+                String beanClassName = beanElement.attributeValue("class");
+                Class<?> beanClass = Class.forName(beanClassName);
+
+                BeanDefinition beanDefinition = new BeanDefinition();
+                beanDefinition.setId(beanName);
+                beanDefinition.setClazz(beanClass);
+                // 获取依赖列表
+                List<Element> dependsOnElement = beanElement.selectNodes("property");
+                if (dependsOnElement != null && dependsOnElement.size() > 0) {
+                    String[] dependsOn = dependsOnElement.stream()
+                            .map(dependOnElement -> dependOnElement.attributeValue("name"))
+                            .toArray(value -> new String[dependsOnElement.size()]);
+                    beanDefinition.setDependsOn(dependsOn);
+                }
+                beanDefinitions.add(beanDefinition);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
-            BeanDefinition beanDefinition = new BeanDefinition();
-            beanDefinition.setId(beanName);
-            beanDefinition.setClazz(beanClass);
-
-            beanDefinitions.add(beanDefinition);
         });
     }
 }

@@ -47,6 +47,8 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
         }
     }
 

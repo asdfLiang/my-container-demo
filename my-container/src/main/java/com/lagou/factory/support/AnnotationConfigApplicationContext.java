@@ -1,7 +1,5 @@
 package com.lagou.factory.support;
 
-import com.lagou.utils.Resources;
-
 import java.io.InputStream;
 
 /**
@@ -10,13 +8,13 @@ import java.io.InputStream;
  * @author liangzj
  * @date 2021/2/21 21:59
  */
-public class AnnotationApplicationContext {
+public class AnnotationConfigApplicationContext {
 
     private InputStream configurationStream;
 
     private DefaultBeanFactory beanFactory;
 
-    public AnnotationApplicationContext() {
+    public AnnotationConfigApplicationContext() {
 
     }
 

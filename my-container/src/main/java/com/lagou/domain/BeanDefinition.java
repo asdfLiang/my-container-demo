@@ -17,6 +17,11 @@ public class BeanDefinition {
      */
     private Class<?> clazz;
 
+    /**
+     * 依赖的bean名称
+     */
+    private String[] dependsOn;
+
 
     public String getId() {
         return id;
@@ -32,5 +37,13 @@ public class BeanDefinition {
 
     public void setClazz(Class<?> clazz) {
         this.clazz = clazz;
+    }
+
+    public String[] getDependsOn() {
+        return dependsOn;
+    }
+
+    public void setDependsOn(String[] dependsOn) {
+        this.dependsOn = dependsOn;
     }
 }

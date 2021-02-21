@@ -1,3 +1,7 @@
 <beans>
-    <bean id="LagouBean" class="com.lagou.edu.pojo.LagouBean"></bean>
+    <bean id="dependBean" class="com.lagou.edu.pojo.DependBean"></bean>
+
+    <bean id="lagouBean" class="com.lagou.edu.pojo.LagouBean">
+        <property name="dependBean" ref="dependBean"></property>
+    </bean>
 </beans>
