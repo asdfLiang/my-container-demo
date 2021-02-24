@@ -62,41 +62,43 @@ public class DefaultBeanFactory implements BeanFactory {
      * @throws InstantiationException
      * @throws NoSuchFieldException
      */
-    private Object instantiateBeanDefinition(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException, NoSuchFieldException {
+    private Object instantiateBeanDefinition(BeanDefinition beanDefinition)
+            throws IllegalAccessException, InstantiationException, NoSuchFieldException {
         Class<?> clazz = beanDefinition.getClazz();
         String[] dependsOn = beanDefinition.getDependsOn();
         Object o = clazz.newInstance();
-
+        // 没有依赖的话直接返回对象
         if (dependsOn == null || dependsOn.length == 0) {
             return o;
         }
-
-        // 处理依赖的对象
+        // 处理依赖的对象，对依赖的对象进行注入
         for (String dependFieldName : dependsOn) {
             Field field = clazz.getDeclaredField(dependFieldName);
             Class<?> fieldType = field.getType();
-            // 先从单例池中获取，没有则先创建这个bean
+            // 先从单例池中获取，没有则创建这个bean
             Object bean = getBean(fieldType);
             if (bean == null) {
                 String beanDefinitionName = beanClassMap.get(fieldType);
                 BeanDefinition beanDefinition0 = beanDefinitionMap.get(beanDefinitionName);
-                Object dependObject = instantiateBeanDefinition(beanDefinition0);
-                // 注入依赖对象
-                dependInject(o, dependFieldName, dependObject);
+                bean = instantiateBeanDefinition(beanDefinition0);
             }
+            // 注入依赖对象
+            dependInject(o, dependFieldName, bean);
         }
 
         return o;
     }
 
     /**
-     * 依赖对象注入
+     * 注入依赖对象
      *
      * @param targetObject
      * @param dependFieldName
      * @param dependObject
      */
-    private void dependInject(Object targetObject, String dependFieldName, Object dependObject) throws NoSuchFieldException, IllegalAccessException {
+    private void dependInject(Object targetObject, String dependFieldName, Object dependObject)
+            throws NoSuchFieldException, IllegalAccessException {
+
         Class<?> aClass = targetObject.getClass();
         Field field = aClass.getDeclaredField(dependFieldName);
 

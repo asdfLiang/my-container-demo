@@ -10,7 +10,6 @@ import org.dom4j.io.SAXReader;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.IntFunction;
 
 /**
  * 负责配置文件解析，将beanDefinition注册到beanFactory中
@@ -75,7 +74,7 @@ public class XmlBeanDefinitionReader {
                 BeanDefinition beanDefinition = new BeanDefinition();
                 beanDefinition.setId(beanName);
                 beanDefinition.setClazz(beanClass);
-                // 获取依赖列表
+                // 获取依赖列表，记录注入依赖的变量名称
                 List<Element> dependsOnElement = beanElement.selectNodes("property");
                 if (dependsOnElement != null && dependsOnElement.size() > 0) {
                     String[] dependsOn = dependsOnElement.stream()
@@ -83,6 +82,7 @@ public class XmlBeanDefinitionReader {
                             .toArray(value -> new String[dependsOnElement.size()]);
                     beanDefinition.setDependsOn(dependsOn);
                 }
+                // 添加beanDefinition到列表中
                 beanDefinitions.add(beanDefinition);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

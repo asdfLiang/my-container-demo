@@ -1,9 +1,13 @@
 package com.lagou.edu.pojo;
 
+import com.lagou.factory.support.AnnotationConfigApplicationContext;
 import com.lagou.factory.support.ClassPathXmlApplicationContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @author liangzj
@@ -22,6 +26,13 @@ public class LagouBeanTest {
     @Test
     public void testIoC() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        LagouBean bean = applicationContext.getBean(LagouBean.class);
+        System.out.println(bean);
+    }
+
+    @Test
+    public void testAnnotation() throws IOException {
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext("com/lagou/edu");
         LagouBean bean = applicationContext.getBean(LagouBean.class);
         System.out.println(bean);
     }

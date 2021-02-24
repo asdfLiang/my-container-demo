@@ -1,6 +1,11 @@
 package com.lagou.utils;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author liangzj
@@ -20,5 +25,14 @@ public class Resources {
         System.out.println(Resources.class.getClassLoader().getResource(""));
         System.out.println(Resources.class.getClassLoader().getResource(path));
         return resourceAsStream;
+    }
+
+    public static Set<URL> getURLSet(String path) throws IOException {
+        Enumeration<URL> urlEnumeration = Resources.class.getClassLoader().getResources(path);
+        Set<URL> urls = new HashSet<>();
+        while (urlEnumeration.hasMoreElements()) {
+            urls.add(urlEnumeration.nextElement());
+        }
+        return urls;
     }
 }

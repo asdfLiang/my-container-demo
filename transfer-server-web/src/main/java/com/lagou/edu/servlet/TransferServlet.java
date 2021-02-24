@@ -1,5 +1,7 @@
 package com.lagou.edu.servlet;
 
+import com.lagou.factory.annotation.Service;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import java.io.IOException;
  * @author liangzj
  * @date 2021/2/21 18:25
  */
+@Service
 public class TransferServlet extends HttpServlet {
 
     @Override
