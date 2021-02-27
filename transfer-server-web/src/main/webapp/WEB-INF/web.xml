@@ -12,7 +12,7 @@
 
     <!-- 容器启动监听器 -->
     <listener>
-        <listener-class>com.lagou.edu.listener.WebApplicationListener</listener-class>
+        <listener-class>com.lagou.edu.spring.listener.WebApplicationListener</listener-class>
     </listener>
 
     <!-- servlet配置 -->

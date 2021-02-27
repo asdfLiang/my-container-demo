@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 /**
- * 事务拦截
+ * 事务拦截器，拦截需要进行声明式事务管理的方法
  *
  * @author liangzj
  * @date 2021/2/26 23:21

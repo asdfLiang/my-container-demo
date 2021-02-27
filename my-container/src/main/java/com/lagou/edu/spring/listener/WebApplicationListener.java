@@ -1,6 +1,5 @@
-package com.lagou.edu.listener;
+package com.lagou.edu.spring.listener;
 
-import com.lagou.edu.spring.factory.annotation.WebApplicationContextUtil;
 import com.lagou.edu.spring.factory.support.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletContextEvent;
