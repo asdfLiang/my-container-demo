@@ -3,8 +3,6 @@ package com.lagou.factory.support;
 import com.lagou.factory.BeanFactory;
 import com.lagou.factory.annotation.AnnotationBeanDefinitionReader;
 
-import java.io.*;
-
 /**
  * 基于注解的容器上下文构建
  *
@@ -17,7 +15,7 @@ public class AnnotationConfigApplicationContext implements BeanFactory {
 
     private DefaultBeanFactory beanFactory;
 
-    public AnnotationConfigApplicationContext(String basePackage) throws IOException {
+    public AnnotationConfigApplicationContext(String basePackage) {
         this.basePackage = basePackage;
         // 创建工厂
         DefaultBeanFactory beanFactory = new DefaultBeanFactory();

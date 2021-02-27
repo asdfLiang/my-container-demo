@@ -1,5 +1,6 @@
 package com.lagou.transaction;
 
+import com.lagou.factory.annotation.Autowired;
 import com.lagou.factory.annotation.Transactional;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -7,6 +8,8 @@ import net.sf.cglib.proxy.MethodProxy;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * 事务拦截
@@ -16,6 +19,8 @@ import java.lang.reflect.Method;
  */
 public class TransactionalInterceptor implements MethodInterceptor {
 
+    private TransactionManager transactionManager = new TransactionManager();
+
     private Object targetObj;
 
     public TransactionalInterceptor(Object targetObj) {
@@ -23,12 +28,14 @@ public class TransactionalInterceptor implements MethodInterceptor {
     }
 
     @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
-            throws Throwable {
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         Annotation classTransactional = targetObj.getClass().getAnnotation(Transactional.class);
         // 如果注解在对象上，对所有方法进行事务管理
         if (classTransactional != null) {
-            return getTransactionProxyObject(targetObj, method, args);
+            Method[] declaredMethods = targetObj.getClass().getDeclaredMethods();
+            boolean isSelfMethod = Arrays.asList(declaredMethods).contains(method);
+            // 只拦截本类中的方法，不拦截父类中的方法
+            return isSelfMethod ? getTransactionProxyObject(targetObj, method, args) : method.invoke(targetObj, args);
         } else {
             // 否则只代理有注解的方法
             Transactional methodTransactional = method.getAnnotation(Transactional.class);
@@ -48,10 +55,15 @@ public class TransactionalInterceptor implements MethodInterceptor {
      */
     private Object getTransactionProxyObject(Object obj, Method method, Object[] args)
             throws Throwable {
-        System.out.println(obj.getClass().getName() + "." + method.getName() + "事务开启。。。");
-        Object invoke = method.invoke(obj, args);
-        System.out.println(obj.getClass().getName() + "." + method.getName() + "事务提交。。。");
+        try {
+            transactionManager.beginTransaction();
+            Object invoke = method.invoke(obj, args);
+            transactionManager.commitTransaction();
+            return invoke;
+        } catch (SQLException e) {
+            transactionManager.rollBack();
+        }
 
-        return invoke;
+        return null;
     }
 }
