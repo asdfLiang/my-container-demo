@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * @author liangzj
@@ -34,7 +35,7 @@ public class LagouBeanTest {
     }
 
     @Test
-    public void testAnnotation() throws IOException {
+    public void testAnnotation() throws IOException, SQLException {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext("com/lagou/edu");
         TransferService transferService = applicationContext.getBean(TransferService.class);
 

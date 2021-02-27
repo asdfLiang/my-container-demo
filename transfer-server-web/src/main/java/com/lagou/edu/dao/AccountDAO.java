@@ -14,20 +14,14 @@ import java.sql.SQLException;
 @Component
 public class AccountDAO {
 
-    public int update(String cardNo, Double money) {
+    public int update(String cardNo, Double money) throws SQLException {
         String sql = "UPDATE account SET amount = (amount + ?) WHERE card_no = ?";
 
-        try {
-            Connection connection = ConnectionUtil.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, money);
-            preparedStatement.setString(2, cardNo);
-            return preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-
-        return 0;
+        Connection connection = ConnectionUtil.getInstance().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setDouble(1, money);
+        preparedStatement.setString(2, cardNo);
+        return preparedStatement.executeUpdate();
     }
 
 }

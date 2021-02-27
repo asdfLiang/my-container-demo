@@ -54,15 +54,12 @@ public class DefaultBeanFactory implements BeanFactory {
      * @param beanDefinition
      */
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+        beanClassMap.put(beanDefinition.getClazz(), beanName);
+        beanDefinitionMap.put(beanName, beanDefinition);
         // 数据源类型记录为DataSource
         if (DataSource.class.isAssignableFrom(beanDefinition.getClazz())) {
             beanClassMap.put(DataSource.class, beanName);
-            beanDefinitionMap.put(beanName, beanDefinition);
-            return;
         }
-
-        beanClassMap.put(beanDefinition.getClazz(), beanName);
-        beanDefinitionMap.put(beanName, beanDefinition);
     }
 
     /**

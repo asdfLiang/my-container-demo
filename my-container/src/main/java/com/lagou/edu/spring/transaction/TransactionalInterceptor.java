@@ -49,20 +49,20 @@ public class TransactionalInterceptor implements MethodInterceptor {
      * @param method
      * @param args
      * @return
+     * @throws SQLException
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
     private Object getTransactionProxyObject(Object obj, Method method, Object[] args)
-            throws Throwable {
+            throws SQLException, InvocationTargetException, IllegalAccessException {
         try {
             transactionManager.beginTransaction();
             Object invoke = method.invoke(obj, args);
             transactionManager.commitTransaction();
             return invoke;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             transactionManager.rollBack();
+            throw e;
         }
-
-        return null;
     }
 }

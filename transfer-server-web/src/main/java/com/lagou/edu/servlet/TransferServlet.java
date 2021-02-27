@@ -27,13 +27,18 @@ public class TransferServlet extends HttpServlet {
         String money = req.getParameter("money");
 
         resp.setContentType("application/json;charset=utf-8");
+        String messagePattern = "{\"status\":\"%s\",\"message\": \"%s\"}";
         try {
             // 转账
             TransferService transferService = WebApplicationContextUtil.getApplicationContext().getBean(TransferService.class);
-            transferService.transfer(fromCardNo, toCardNo, Double.valueOf(money));
-            resp.getWriter().print("{\"status\":\"200\",\"data\": \"transfer success\"}");
+            boolean transferSuccess = transferService.transfer(fromCardNo, toCardNo, Double.valueOf(money));
+            if (transferSuccess) {
+                resp.getWriter().print(String.format(messagePattern, 200, "转账成功...."));
+            } else {
+                resp.getWriter().print(String.format(messagePattern, 500, "转账失败...."));
+            }
         } catch (Exception e) {
-            resp.getWriter().print("{\"status\":\"500\",\"data\": \"transfer error\"}");
+            resp.getWriter().print(String.format(messagePattern, 500, "转账异常...."));
         }
     }
 }
