@@ -2,6 +2,9 @@ package com.lagou.factory.support;
 
 import com.lagou.domain.BeanDefinition;
 import com.lagou.factory.BeanFactory;
+import com.lagou.transaction.TransactionManager;
+import com.lagou.transaction.TransactionalInterceptor;
+import net.sf.cglib.proxy.Enhancer;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -40,6 +43,10 @@ public class DefaultBeanFactory implements BeanFactory {
             // 放入单例池
             singletonObjects.put(entry.getKey(), o);
         }
+
+        // 放入事务对象
+        beanClassMap.put(TransactionManager.class, TransactionManager.class.getName());
+        singletonObjects.put(TransactionManager.class.getName(), new TransactionManager());
     }
 
     /**
@@ -59,17 +66,16 @@ public class DefaultBeanFactory implements BeanFactory {
      * @param beanDefinition
      * @return
      * @throws IllegalAccessException
-     * @throws InstantiationException
      * @throws NoSuchFieldException
      */
     private Object instantiateBeanDefinition(BeanDefinition beanDefinition)
-            throws IllegalAccessException, InstantiationException, NoSuchFieldException {
+            throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         Class<?> clazz = beanDefinition.getClazz();
         String[] dependsOn = beanDefinition.getDependsOn();
-        Object o = clazz.newInstance();
         // 没有依赖的话直接返回对象
+        Object o = clazz.newInstance();
         if (dependsOn == null || dependsOn.length == 0) {
-            return o;
+            return getProxyBean(o);
         }
         // 处理依赖的对象，对依赖的对象进行注入
         for (String dependFieldName : dependsOn) {
@@ -86,7 +92,22 @@ public class DefaultBeanFactory implements BeanFactory {
             dependInject(o, dependFieldName, bean);
         }
 
-        return o;
+        return getProxyBean(o);
+    }
+
+    /**
+     * 获取代理对象
+     *
+     * @param object
+     * @param <T>
+     * @return
+     */
+    private <T> T getProxyBean(Object object) {
+        // 如果是对象，生成代理对象
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(object.getClass());
+        T t = (T) enhancer.create(object.getClass(), new TransactionalInterceptor(object));
+        return t;
     }
 
     /**

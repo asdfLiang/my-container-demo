@@ -21,9 +21,9 @@ public class AnnotationBeanDefinitionReader {
     private String scanPath;
 
     private DefaultBeanFactory beanFactory;
-
+    // 交给容器管里的类类型
     private final List<Class> componentClassList = new LinkedList<>();
-
+    // 类的配置信息
     private final List<BeanDefinition> beanDefinitions = new LinkedList<>();
 
     public AnnotationBeanDefinitionReader(DefaultBeanFactory beanFactory) {
@@ -125,7 +125,7 @@ public class AnnotationBeanDefinitionReader {
     }
 
     /**
-     * 判断这个类是否是组件
+     * 判断这个类是否由容器来管理
      *
      * @param aClass
      * @return

@@ -27,6 +27,13 @@ public class Resources {
         return resourceAsStream;
     }
 
+    /**
+     * 获取指定路径下的所有url
+     *
+     * @param path
+     * @return
+     * @throws IOException
+     */
     public static Set<URL> getURLSet(String path) throws IOException {
         Enumeration<URL> urlEnumeration = Resources.class.getClassLoader().getResources(path);
         Set<URL> urls = new HashSet<>();
