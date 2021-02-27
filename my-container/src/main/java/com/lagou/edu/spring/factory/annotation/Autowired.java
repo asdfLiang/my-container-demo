@@ -1,4 +1,4 @@
-package com.lagou.factory.annotation;
+package com.lagou.edu.spring.factory.annotation;
 
 import java.lang.annotation.*;
 

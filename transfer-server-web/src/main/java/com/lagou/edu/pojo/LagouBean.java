@@ -1,7 +1,7 @@
 package com.lagou.edu.pojo;
 
-import com.lagou.factory.annotation.Autowired;
-import com.lagou.factory.annotation.Service;
+import com.lagou.edu.spring.factory.annotation.Autowired;
+import com.lagou.edu.spring.factory.annotation.Service;
 
 /**
  * @author liangzj

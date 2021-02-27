@@ -1,9 +1,8 @@
-package com.lagou.factory.support;
+package com.lagou.edu.spring.factory.support;
 
-import com.lagou.domain.BeanDefinition;
-import com.lagou.factory.BeanFactory;
-import com.lagou.transaction.TransactionManager;
-import com.lagou.transaction.TransactionalInterceptor;
+import com.lagou.edu.spring.domain.BeanDefinition;
+import com.lagou.edu.spring.factory.BeanFactory;
+import com.lagou.edu.spring.transaction.TransactionalInterceptor;
 import net.sf.cglib.proxy.Enhancer;
 
 import javax.sql.DataSource;
@@ -38,6 +37,7 @@ public class DefaultBeanFactory implements BeanFactory {
      * @throws InstantiationException
      */
     public void instantiateSingletons() throws IllegalAccessException, InstantiationException, NoSuchFieldException {
+
         for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
             // 实例化对象
             Object o = instantiateBeanDefinition(entry.getValue());
@@ -45,9 +45,6 @@ public class DefaultBeanFactory implements BeanFactory {
             singletonObjects.put(entry.getKey(), o);
         }
 
-        // 放入事务对象
-        beanClassMap.put(TransactionManager.class, TransactionManager.class.getName());
-        singletonObjects.put(TransactionManager.class.getName(), new TransactionManager());
     }
 
     /**

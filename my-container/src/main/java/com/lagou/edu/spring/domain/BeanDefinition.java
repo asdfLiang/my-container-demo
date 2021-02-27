@@ -1,4 +1,4 @@
-package com.lagou.domain;
+package com.lagou.edu.spring.domain;
 
 /**
  * bean的配置信息类

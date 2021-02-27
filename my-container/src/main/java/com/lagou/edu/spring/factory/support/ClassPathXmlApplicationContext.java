@@ -1,8 +1,8 @@
-package com.lagou.factory.support;
+package com.lagou.edu.spring.factory.support;
 
-import com.lagou.factory.BeanFactory;
-import com.lagou.utils.Resources;
-import com.lagou.xml.XmlBeanDefinitionReader;
+import com.lagou.edu.spring.factory.BeanFactory;
+import com.lagou.edu.spring.utils.Resources;
+import com.lagou.edu.spring.xml.XmlBeanDefinitionReader;
 
 import java.io.InputStream;
 

@@ -1,8 +1,8 @@
-package com.lagou.factory.annotation;
+package com.lagou.edu.spring.factory.annotation;
 
-import com.lagou.domain.BeanDefinition;
-import com.lagou.factory.support.DefaultBeanFactory;
-import com.lagou.utils.Resources;
+import com.lagou.edu.spring.domain.BeanDefinition;
+import com.lagou.edu.spring.factory.support.DefaultBeanFactory;
+import com.lagou.edu.spring.utils.Resources;
 
 import java.io.File;
 import java.io.IOException;
@@ -115,7 +115,7 @@ public class AnnotationBeanDefinitionReader {
             for (String className : classNames) {
                 Class<?> aClass = Class.forName(className);
                 // 判断类是否是需要由容器管理的类
-                if (isComponent(aClass)) {
+                if (isComponent(aClass) && !aClass.isAnnotation()) {
                     componentClassList.add(aClass);
                 }
             }

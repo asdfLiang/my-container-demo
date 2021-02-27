@@ -1,7 +1,8 @@
-package com.lagou.factory.support;
+package com.lagou.edu.spring.factory.support;
 
-import com.lagou.factory.BeanFactory;
-import com.lagou.factory.annotation.AnnotationBeanDefinitionReader;
+import com.lagou.edu.spring.factory.BeanFactory;
+import com.lagou.edu.spring.factory.annotation.AnnotationBeanDefinitionReader;
+import com.lagou.edu.spring.factory.annotation.WebApplicationContextUtil;
 
 /**
  * 基于注解的容器上下文构建
@@ -24,6 +25,8 @@ public class AnnotationConfigApplicationContext implements BeanFactory {
         this.beanFactory = beanFactory;
         // 进行bean的实例化
         finishBeanFactoryInitialization(beanFactory);
+        //
+        WebApplicationContextUtil.registerApplicationContext(this);
     }
 
     @Override

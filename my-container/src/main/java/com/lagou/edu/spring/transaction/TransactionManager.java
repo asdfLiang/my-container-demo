@@ -1,12 +1,14 @@
-package com.lagou.transaction;
+package com.lagou.edu.spring.transaction;
 
-import com.lagou.factory.annotation.Component;
-import com.lagou.utils.ConnectionUtil;
+import com.lagou.edu.spring.factory.annotation.Component;
+import com.lagou.edu.spring.utils.ConnectionUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
+ * 事务管理器
+ *
  * @author liangzj
  * @date 2021/2/25 0:37
  */

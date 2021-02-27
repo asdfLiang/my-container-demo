@@ -1,9 +1,8 @@
 package com.lagou.edu.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.lagou.factory.annotation.Component;
-import com.lagou.transaction.DataSourceConfig;
-import com.lagou.utils.Resources;
+import com.lagou.edu.spring.factory.annotation.Component;
+import com.lagou.edu.spring.utils.Resources;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
@@ -16,6 +15,8 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
+ * 数据库连接池配置
+ *
  * @author liangzj
  * @date 2021/2/27 18:14
  */

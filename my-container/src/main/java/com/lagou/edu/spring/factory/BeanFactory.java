@@ -1,4 +1,4 @@
-package com.lagou.factory;
+package com.lagou.edu.spring.factory;
 
 /**
  * bean工厂接口

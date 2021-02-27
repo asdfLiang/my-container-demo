@@ -1,7 +1,7 @@
 package com.lagou.edu.listener;
 
-import com.lagou.factory.annotation.WebApplicationContextUtil;
-import com.lagou.factory.support.AnnotationConfigApplicationContext;
+import com.lagou.edu.spring.factory.annotation.WebApplicationContextUtil;
+import com.lagou.edu.spring.factory.support.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -17,8 +17,7 @@ public class WebApplicationListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         String basePackage = sce.getServletContext().getInitParameter("basePackage");
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(basePackage);
-        WebApplicationContextUtil.registerApplicationContext(applicationContext);
+        new AnnotationConfigApplicationContext(basePackage);
 
         System.out.println("。。。。。。。。applicationContext 初始化。。。。。。。。。");
     }

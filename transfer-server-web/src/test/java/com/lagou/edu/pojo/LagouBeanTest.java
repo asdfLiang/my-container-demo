@@ -1,10 +1,10 @@
 package com.lagou.edu.pojo;
 
 import com.lagou.edu.service.TransferService;
-import com.lagou.transaction.TransactionManager;
-import com.lagou.transaction.TransactionalInterceptor;
-import com.lagou.factory.support.AnnotationConfigApplicationContext;
-import com.lagou.factory.support.ClassPathXmlApplicationContext;
+import com.lagou.edu.spring.transaction.TransactionManager;
+import com.lagou.edu.spring.transaction.TransactionalInterceptor;
+import com.lagou.edu.spring.factory.support.AnnotationConfigApplicationContext;
+import com.lagou.edu.spring.factory.support.ClassPathXmlApplicationContext;
 import net.sf.cglib.proxy.Enhancer;
 import org.junit.After;
 import org.junit.Before;
@@ -38,25 +38,19 @@ public class LagouBeanTest {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext("com/lagou/edu");
         TransferService transferService = applicationContext.getBean(TransferService.class);
 
-        transferService.transfer();
+        transferService.transfer("6029621011001", "6029621011000", 2.0);
     }
 
     @Test
     public void testCgLibProxy() {
-        Enhancer enhancer = new Enhancer();
-        TransferService transferService = new TransferService();
-        enhancer.setSuperclass(TransferService.class);
-        enhancer.setCallback(new TransactionalInterceptor(transferService));
-        transferService = (TransferService) enhancer.create();
-
-        transferService.transfer();
+//        Enhancer enhancer = new Enhancer();
+//        TransferService transferService = new TransferService();
+//        enhancer.setSuperclass(TransferService.class);
+//        enhancer.setCallback(new TransactionalInterceptor(transferService));
+//        transferService = (TransferService) enhancer.create();
+//
+//        transferService.transfer("6029621011001", "6029621011000", 2.0);
     }
 
-    @Test
-    public void testGetTransactionManager() throws IOException {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext("com/lagou/edu");
-        TransactionManager bean = applicationContext.getBean(TransactionManager.class);
-        System.out.println(bean);
-    }
 
 }

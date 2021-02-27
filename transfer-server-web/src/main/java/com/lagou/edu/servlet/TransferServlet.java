@@ -1,8 +1,7 @@
 package com.lagou.edu.servlet;
 
 import com.lagou.edu.service.TransferService;
-import com.lagou.factory.annotation.WebApplicationContextUtil;
-import com.lagou.factory.support.AnnotationConfigApplicationContext;
+import com.lagou.edu.spring.factory.annotation.WebApplicationContextUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,12 +22,18 @@ public class TransferServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 转账
-        TransferService transferService = WebApplicationContextUtil.getApplicationContext().getBean(TransferService.class);
-        transferService.transfer();
+        String fromCardNo = req.getParameter("fromCardNo");
+        String toCardNo = req.getParameter("toCardNo");
+        String money = req.getParameter("money");
 
-        // 响应
         resp.setContentType("application/json;charset=utf-8");
-        resp.getWriter().print("{\"status\":\"200\",\"data\": \"do transfer\"}");
+        try {
+            // 转账
+            TransferService transferService = WebApplicationContextUtil.getApplicationContext().getBean(TransferService.class);
+            transferService.transfer(fromCardNo, toCardNo, Double.valueOf(money));
+            resp.getWriter().print("{\"status\":\"200\",\"data\": \"transfer success\"}");
+        } catch (Exception e) {
+            resp.getWriter().print("{\"status\":\"500\",\"data\": \"transfer error\"}");
+        }
     }
 }

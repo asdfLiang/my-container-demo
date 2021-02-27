@@ -1,7 +1,7 @@
-package com.lagou.xml;
+package com.lagou.edu.spring.xml;
 
-import com.lagou.domain.BeanDefinition;
-import com.lagou.factory.support.DefaultBeanFactory;
+import com.lagou.edu.spring.domain.BeanDefinition;
+import com.lagou.edu.spring.factory.support.DefaultBeanFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;

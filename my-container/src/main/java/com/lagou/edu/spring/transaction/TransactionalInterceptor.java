@@ -1,7 +1,6 @@
-package com.lagou.transaction;
+package com.lagou.edu.spring.transaction;
 
-import com.lagou.factory.annotation.Autowired;
-import com.lagou.factory.annotation.Transactional;
+import com.lagou.edu.spring.factory.annotation.Transactional;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 

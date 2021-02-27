@@ -1,6 +1,6 @@
 package com.lagou.edu.pojo;
 
-import com.lagou.factory.annotation.Component;
+import com.lagou.edu.spring.factory.annotation.Component;
 
 /**
  * @author liangzj

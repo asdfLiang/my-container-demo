@@ -1,4 +1,4 @@
-package com.lagou.utils;
+package com.lagou.edu.spring.utils;
 
 import java.io.*;
 import java.net.URL;

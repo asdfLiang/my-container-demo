@@ -1,6 +1,6 @@
-package com.lagou.factory.annotation;
+package com.lagou.edu.spring.factory.annotation;
 
-import com.lagou.factory.support.AnnotationConfigApplicationContext;
+import com.lagou.edu.spring.factory.support.AnnotationConfigApplicationContext;
 
 /**
  * @author liangzj
@@ -15,7 +15,6 @@ public class WebApplicationContextUtil {
 
     public static void registerApplicationContext(AnnotationConfigApplicationContext annotationConfigApplicationContext) {
         applicationContext = annotationConfigApplicationContext;
-        System.out.println("register");
     }
 
     public static AnnotationConfigApplicationContext getApplicationContext() {

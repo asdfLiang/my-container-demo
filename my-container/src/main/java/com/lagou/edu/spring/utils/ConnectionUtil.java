@@ -1,8 +1,7 @@
-package com.lagou.utils;
+package com.lagou.edu.spring.utils;
 
-import com.lagou.factory.annotation.WebApplicationContextUtil;
-import com.lagou.factory.support.AnnotationConfigApplicationContext;
-import com.lagou.transaction.DataSourceConfig;
+import com.lagou.edu.spring.factory.annotation.WebApplicationContextUtil;
+import com.lagou.edu.spring.factory.support.AnnotationConfigApplicationContext;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
