@@ -1,7 +1,7 @@
 package com.lagou.edu.servlet;
 
 import com.lagou.edu.service.TransferService;
-import com.lagou.factory.annotation.Component;
+import com.lagou.factory.annotation.WebApplicationContextUtil;
 import com.lagou.factory.support.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletException;
@@ -14,14 +14,7 @@ import java.io.IOException;
  * @author liangzj
  * @date 2021/2/21 18:25
  */
-@Component
 public class TransferServlet extends HttpServlet {
-
-    private static AnnotationConfigApplicationContext applicationContext;
-
-    static {
-        applicationContext = new AnnotationConfigApplicationContext("com/lagou/edu");
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,7 +24,7 @@ public class TransferServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 转账
-        TransferService transferService = applicationContext.getBean(TransferService.class);
+        TransferService transferService = WebApplicationContextUtil.getApplicationContext().getBean(TransferService.class);
         transferService.transfer();
 
         // 响应

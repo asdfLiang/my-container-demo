@@ -4,6 +4,18 @@
 
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
+    <!-- 扫描路径配置 -->
+    <context-param>
+        <param-name>basePackage</param-name>
+        <param-value>com/lagou/edu</param-value>
+    </context-param>
+
+    <!-- 容器启动监听器 -->
+    <listener>
+        <listener-class>com.lagou.edu.listener.WebApplicationListener</listener-class>
+    </listener>
+
+    <!-- servlet配置 -->
     <servlet>
         <servlet-name>transfer</servlet-name>
         <servlet-class>com.lagou.edu.servlet.TransferServlet</servlet-class>

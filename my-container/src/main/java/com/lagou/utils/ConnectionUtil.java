@@ -1,6 +1,8 @@
 package com.lagou.utils;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import com.lagou.factory.annotation.WebApplicationContextUtil;
+import com.lagou.factory.support.AnnotationConfigApplicationContext;
+import com.lagou.transaction.DataSourceConfig;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -33,7 +35,8 @@ public class ConnectionUtil {
      */
     public Connection getConnection() throws SQLException {
         if (ctl.get() == null) {
-            DataSource dataSource = new DruidDataSource();
+            AnnotationConfigApplicationContext applicationContext = WebApplicationContextUtil.getApplicationContext();
+            DataSource dataSource = applicationContext.getBean(DataSource.class);
             // 线程绑定数据库连接
             Connection connection = dataSource.getConnection();
             ctl.set(connection);
