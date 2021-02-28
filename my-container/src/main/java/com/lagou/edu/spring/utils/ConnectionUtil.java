@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class ConnectionUtil {
 
-    ThreadLocal<Connection> ctl = new ThreadLocal<>();
+    public static final ThreadLocal<Connection> ctl = new ThreadLocal<>();
 
     private static ConnectionUtil connectionUtil = new ConnectionUtil();
 

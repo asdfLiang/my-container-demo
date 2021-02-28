@@ -11,16 +11,17 @@ import java.sql.SQLException;
  * @author liangzj
  * @date 2021/2/26 21:48
  */
-@Service
-@Transactional
+@Service("transferServiceXXX")
+//@Transactional
 public class TransferService {
 
     @Autowired
     AccountDAO accountDAO;
 
+    @Transactional
     public boolean transfer(String fromCardNo, String toCardNo, Double money) throws SQLException {
         accountDAO.update(fromCardNo, -money);
-        int c = 1 / 0;
+//        int c = 1 / 0;
         accountDAO.update(toCardNo, money);
         return true;
     }

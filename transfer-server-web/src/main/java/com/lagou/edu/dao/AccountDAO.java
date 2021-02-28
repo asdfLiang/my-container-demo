@@ -21,6 +21,7 @@ public class AccountDAO {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setDouble(1, money);
         preparedStatement.setString(2, cardNo);
+
         return preparedStatement.executeUpdate();
     }
 

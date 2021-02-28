@@ -24,11 +24,15 @@ public class TransactionManager {
     public void commitTransaction() throws SQLException {
         Connection connection = ConnectionUtil.getInstance().getConnection();
         connection.commit();
+        // 清空ThreadLocal避免内存泄露
+        ConnectionUtil.ctl.remove();
         System.out.println("commit transaction..........");
     }
 
     public void rollBack() throws SQLException {
         ConnectionUtil.getInstance().getConnection().rollback();
+        // 清空ThreadLocal避免内存泄露
+        ConnectionUtil.ctl.remove();
         System.out.println("rollback transaction..........");
     }
 }

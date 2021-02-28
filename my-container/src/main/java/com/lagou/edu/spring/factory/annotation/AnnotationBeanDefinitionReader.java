@@ -78,13 +78,39 @@ public class AnnotationBeanDefinitionReader {
     private void resolveBeanDefinitions() {
         for (Class aClass : componentClassList) {
             BeanDefinition beanDefinition = new BeanDefinition();
-            beanDefinition.setId(aClass.getSimpleName());
+            beanDefinition.setId(getBeanName(aClass));
             beanDefinition.setClazz(aClass);
             String[] dependsOn = listDependsOn(aClass);
             beanDefinition.setDependsOn(dependsOn);
 
             beanDefinitions.add(beanDefinition);
         }
+    }
+
+    /**
+     * 获取bean的名称
+     *
+     * @param aClass
+     * @return
+     */
+    private String getBeanName(Class<?> aClass) {
+        Component component = aClass.getAnnotation(Component.class);
+        Service service = aClass.getAnnotation(Service.class);
+
+        String componentValue = (component == null) ? null : component.value();
+        String serviceValue = (service == null) ? null : service.value();
+
+        String beanName = aClass.getSimpleName();
+
+        if (!(componentValue == null || "".equals(componentValue))) {
+            beanName = componentValue;
+        }
+
+        if (!(serviceValue == null || "".equals(serviceValue))) {
+            beanName = serviceValue;
+        }
+
+        return beanName;
     }
 
     /**
