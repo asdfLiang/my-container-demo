@@ -5,7 +5,6 @@ import com.lagou.edu.spring.factory.BeanFactory;
 import com.lagou.edu.spring.transaction.TransactionalInterceptor;
 import net.sf.cglib.proxy.Enhancer;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,16 +17,16 @@ import java.util.Map;
  */
 public class DefaultBeanFactory implements BeanFactory {
 
-    // bean信息
+    // bean信息 <beanName, BeanDefinition>
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>(256);
-    // 单例对象池
+    // 单例对象池 <beanName, beanInstance>
     private final Map<String, Object> singletonObjects = new HashMap<>(256);
-    // bean的类型和名称映射map
-    private final Map<Class, String> beanClassMap = new HashMap<>(256);
+    // bean的类型和名称映射 <beanClass, beanName>
+    private final Map<Class, String> beanClassOfNameMap = new HashMap<>(256);
 
     @Override
     public <T> T getBean(Class<T> clazz) {
-        return (T) singletonObjects.get(beanClassMap.get(clazz));
+        return (T) singletonObjects.get(beanClassOfNameMap.get(clazz));
     }
 
     /**
@@ -54,11 +53,15 @@ public class DefaultBeanFactory implements BeanFactory {
      * @param beanDefinition
      */
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-        beanClassMap.put(beanDefinition.getClazz(), beanName);
         beanDefinitionMap.put(beanName, beanDefinition);
-        // 数据源类型记录为DataSource
-        if (DataSource.class.isAssignableFrom(beanDefinition.getClazz())) {
-            beanClassMap.put(DataSource.class, beanName);
+
+        beanClassOfNameMap.put(beanDefinition.getClazz(), beanName);
+        // 如果这个类有接口，将这个类的接口也实例进行映射
+        Class<?>[] interfaces = beanDefinition.getClazz().getInterfaces();
+        if (interfaces != null && interfaces.length > 0) {
+            for (Class<?> anInterface : interfaces) {
+                beanClassOfNameMap.put(anInterface, beanName);
+            }
         }
     }
 
@@ -86,7 +89,7 @@ public class DefaultBeanFactory implements BeanFactory {
             // 先从单例池中获取，没有则创建这个bean
             Object bean = getBean(fieldType);
             if (bean == null) {
-                String beanDefinitionName = beanClassMap.get(fieldType);
+                String beanDefinitionName = beanClassOfNameMap.get(fieldType);
                 BeanDefinition beanDefinition0 = beanDefinitionMap.get(beanDefinitionName);
                 bean = instantiateBeanDefinition(beanDefinition0);
             }

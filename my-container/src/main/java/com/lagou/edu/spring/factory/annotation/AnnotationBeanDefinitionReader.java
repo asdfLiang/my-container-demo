@@ -100,8 +100,10 @@ public class AnnotationBeanDefinitionReader {
         String componentValue = (component == null) ? null : component.value();
         String serviceValue = (service == null) ? null : service.value();
 
-        String beanName = aClass.getSimpleName();
+        // 默认类名开头小写
+        String beanName = startLowercase(aClass.getSimpleName());
 
+        // 如果指定了名称，用指定的名称
         if (!(componentValue == null || "".equals(componentValue))) {
             beanName = componentValue;
         }
@@ -111,6 +113,17 @@ public class AnnotationBeanDefinitionReader {
         }
 
         return beanName;
+    }
+
+    /**
+     * 字符串开头字母小写
+     *
+     * @return
+     */
+    private String startLowercase(String str) {
+        char[] chars = str.toCharArray();
+        chars[0] += 32;
+        return new String(chars);
     }
 
     /**
